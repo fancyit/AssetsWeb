@@ -1,0 +1,62 @@
+html {
+  width    : 100%;
+  max-width: 100%;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+.myBtn {
+  width : auto;
+  height: auto;
+}
+
+.navbar-custom {
+  background-color: #fff;
+  border-bottom   : 1px solid #ccc;
+}
+th, td {
+  text-align: center;
+}
+
+.btn-toolbar {
+  margin-right   : 0;
+  justify-content: flex-end;
+  padding        : .5rem 1rem;
+}
+
+.dataTables_filter {
+  text-align: end;
+}
+
+.actionsColumn {
+  padding: -10px -20px;
+}
+
+/* @media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 100%;
+    margin   : 1.75rem auto;
+  }
+}*/
+/* .modal-dialog {
+  position  : absolute;
+  top       : -10px;
+  right     : 60%;
+  bottom    : 0;
+  left      : 0;
+  z-index   : 10040;
+  overflow  : auto;
+  overflow-y: auto;
+} */
+/* .modal-body{
+  max-width: 480px;
+  padding  : 0px 10px 10px 0px;
+}
+.modal-footer {
+  padding: 10px 10px 10px 0px;
+}
+.md-form .validate {
+ margin-bottom: .5rem;
+} */

@@ -1,0 +1,6 @@
+# Default ignored files
+/workspace.xml
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
