@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { getData } from '../../store/actions/assetActions'
-import { authCheck } from '../../store/actions/authActions'
 import { connect } from 'react-redux'
 import { Redirect } from "react-router-dom";
 
@@ -9,28 +8,26 @@ class AssetsListing extends Component {
   constructor(props) {
     super(props);
     this.state = { deps: [], modal: false, isLoading:true }
+    this.onDataChange = this.onDataChange.bind(this);
   }
   componentDidMount() {
     const AssetsUrl = 'asset/GetAssets';
-    this.props.getData(AssetsUrl);
-    console.log(this.state.isLoading);
-    const { expires } = this.props;
-    const depsUrl = 'asset/GetDepartmentsList';
+    this.props.getData(AssetsUrl);           
   };
   toggle = () => {
     this.setState({
       modal: !this.state.modal
     });
   };
+  onDataChange = (e) =>{
+    new Promise((resolve, reject)=>{
+      setTimeout(()=> 
+        resolve(console.log(e)),3000)
+      });    
+  }
   render() {
-    const {isLoggedIn} = this.props;
-    if (!isLoggedIn) return <Redirect to='Login' />
-    const { assets } = this.props;
-    const {isLoading} = this.props;
-    const { deps } = this.props;
-    //  Object.keys(assets[0]).map(x => {
-    //   return { title: x, field: x }
-    // });
+    const {assets, isLoading, isLoggedIn, fetchError} = this.props;
+    if (!isLoggedIn||fetchError) return <Redirect to='Login' />    
     const tableData = assets ? assets.map(a => {
       return {
         id: a.id,
@@ -39,35 +36,46 @@ class AssetsListing extends Component {
         currentOwner: a.currentOwner,
         supplier: a.supplier,
         state: a.state,
-        depName: a.department
+        depName: a.department,
+        depCode: a.departmentCode
       }
-    }) : undefined;
-    let depsOpts = this.state.deps.map((x, y) =>
-      <option key={y} value={x.name}>{x.name}</option>)
+    }) : undefined;       
     return (
       <div className="row">
         <div className="col push-s1 s10">
           <MaterialTable
               columns={[
-                { title: 'Id', field: 'id' },
+                //{ title: 'Id', field: 'id' },
                 { title: 'Name', field: 'name' },
                 { title: 'Category', field: 'assetCategory' },
                 { title: 'Owner', field: 'currentOwner' },
                 { title: 'Supplier', field: 'supplier' },
                 { title: 'State', field: 'state' },
-                { title: 'Department', field: 'department' },
+                { title: 'Department', field: 'depName' },                
+                {title: 'MVZ', field: 'depCode' }
               ]}
               data={tableData}
               options={
                 {
                   pageSize: 15,
                   pageSizeOptions: [15, 25, 50, 100],
-                  showTitle: false
+                  showTitle: false,
+                  searchFieldStyle: {"borderBottom": "none"}
                 }
               }
-              isLoading={!tableData.length}
-            />
-          }
+              // actions={[                
+              //   (rowData) => {
+              //     return rowData
+              //       ? { icon: 'save', disable: true, onClick: (rowData) => { /* anythink */ } }
+              //       : { icon: 'another-icon', disable: false, onClick: (rowData) => { /* anythink */ } }
+              //  }
+              // ]}
+              isLoading={isLoading}
+              editable = {
+                {onRowUpdate : this.onDataChange}
+                //onRowDelete = {onDataDelete}
+              }
+            />          
         </div>
       </div>
     )
@@ -77,13 +85,13 @@ const mapStateToProps = (state) => {
   return {
     assets: state.asset.assets,
     isLoading: state.asset.isLoading,
-    isLoggedIn: state.auth.isLoggedIn
+    isLoggedIn: state.auth.isLoggedIn,
+    fetchError: state.asset.fetchError
   }
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getData: (url) => dispatch(getData(url)),
-    authCheck: (expTime) => dispatch(authCheck(expTime))
+    getData: (url) => dispatch(getData(url))    
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AssetsListing);

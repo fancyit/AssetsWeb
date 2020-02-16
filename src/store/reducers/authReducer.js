@@ -1,12 +1,15 @@
 const initState = {
     authError: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    signUpError: undefined,
+    registrationMessage:''
 };
 const authReducer = (state = initState, action) => {
     switch (action.type) {
         case 'LOGIN_ERROR':
             return {
                 ...state,
+                isLoggedIn: false,
                 authError: action.response
             };
         case 'AuthExpired':
@@ -23,7 +26,25 @@ const authReducer = (state = initState, action) => {
                 expires: action.response.expiration,
                 username: action.response.username,
                 email: action.response.email,
-                role: action.response.userRole
+                role: action.response.userRole,
+                registrationMessage:'',
+                signUpError: undefined
+            };
+        case 'SIGNUP_ERROR':
+            console.log(action);
+            return {
+                ...state,
+                isLoggedIn: false,
+                signUpError: action.response.value
+            };
+            case 'SIGNUP_SUCCESS':
+            console.log(action);
+            return {
+                ...state,                
+                authError: null,
+                isLoggedIn: false,                
+                registrationMessage:action.response.message,
+                signUpError: undefined
             };
         default:
             return state;

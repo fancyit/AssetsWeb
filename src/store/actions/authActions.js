@@ -17,15 +17,23 @@ export const signIn = (credentials) => {
             })
     }
 };
-export const authCheck = (expTime) => {
-    return(dispatch, getState, expTime) => {
-        if (Date.now() < Date.parse(expTime)) {
-            console.log('dispatching authCheck');
-            console.log('expires :', expTime);
-            console.log(Date.now() < Date.parse(expTime));
-            dispatch({type: 'default'});
-        }
-        dispatch({type: 'AuthExpired'});
+export const signUp = (credentials) => {
+    return (dispatch, getState, postResult) => {
+        const endPoint = 'Account/Register';
+        postResult = httpPost(endPoint, credentials)
+            .then((res) => {
+                if (res.status !== 200) {
+                    dispatch({ type: 'SIGNUP_ERROR', response: res.data });
+                }
+                else {
+                    localStorage.setItem('tkn', res.data.token);
+                    dispatch({ type: 'SIGNUP_SUCCESS', response: res.data });
+                }
+            }).catch((err) => {
+                console.log('signup error in fetch');                
+                console.log(err);
+                dispatch({ type: 'SIGNUP_ERROR', response: err });
+            })
     }
 };
 

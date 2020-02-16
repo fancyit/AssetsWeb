@@ -12,3 +12,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* input:focus:not([read-only]) {
+	border-bottom: none!important;
+	box-shadow: none!important;	
+}  */
+
+.navLink {
+  font-size: 1.4em;
+}

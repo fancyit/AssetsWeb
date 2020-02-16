@@ -3,7 +3,7 @@ import { Modal, Button, Row, Col, Form, FormLabel } from 'react-bootstrap';
 import { Table, ButtonToolbar } from 'react-bootstrap';
 import { httpGet } from '../../helpers/network';
 
-export class AddAsset extends Component {
+class AddAsset extends Component {
     constructor(props) {
         super(props);
         this.state = { deps: [] };
@@ -75,4 +75,5 @@ export class AddAsset extends Component {
             </Modal>
         );
     }
-}
+};
+export default AddAsset;

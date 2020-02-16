@@ -23,6 +23,8 @@ export const httpGet = async endPoint => {
   }
 
 };
+
+//TODO post error handling
 export const httpPost = async (endPoint, cred) => {
   const response = await fetch(`${API_ROOT}/${endPoint}`, {
     method: 'POST', // или 'PUT'
@@ -31,6 +33,16 @@ export const httpPost = async (endPoint, cred) => {
       'Content-Type': 'application/json'
     }
   });
-  const data = await response.json();
-  return { data: data, status: response.status }
+  try {
+    if(response.status !==200){
+      const json = await response.json();  
+      return { data: json, status: response.status }
+    }
+    const json = await response.json();
+    return { data: json, status: response.status }
+  }
+  catch(err){
+    console.log('error', err);
+    return { data: {loginError: err.statusText}, status: err.status }
+  }
 };

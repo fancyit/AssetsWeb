@@ -1,23 +1,21 @@
-import {withMobileDialog} from "@material-ui/core";
-
 const initState = {
     totalItems: 0,
     isLoading: true
 };
 const assetReducer = (state = initState, action) => {
     switch (action.type) {
-        case 'FETCH_ERROR':
+        case 'FETCH_ERROR':                      
             return {
                 ...state,
                 totalItems: 0,
-                assets:[]
-                //fetchError: action.response
+                assets:[],
+                isLoading: false,
+                fetchError: action.response.message
             };
-        case 'FETCH_SUCCESS':
-            const items = action.response.length;
+        case 'FETCH_SUCCESS':            
             return {
                 ...state,
-                totalItems: items,
+                totalItems: action.response.length,
                 assets: action.response,
                 isLoading: false
             };

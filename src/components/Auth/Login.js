@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { MDBBtn, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBContainer, MDBRow } from 'mdbreact';
 import { signIn } from '../../store/actions/authActions';
 import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
@@ -20,6 +21,8 @@ class Login extends Component {
     }
     submit = (event) => {
         event.preventDefault();
+        console.log(this.state);
+        
         // if () {
         //     console.log('You already in');
         //     return
@@ -30,26 +33,50 @@ class Login extends Component {
         const { isLoggedIn } = this.props;
         if (isLoggedIn) return <Redirect to='/' />;
         const { authError } = this.props;
-        return (
-            <div className="container center-align">
-                <div className="row">
-                    <form onSubmit={this.submit} className="white col s4 push-s4 center-align">
-                        <h5 className="grey-text text-darken-3">Sign In</h5>
-                        <div className="input-field">
-                            <label htmlFor='username'>User name</label>
-                            <input type="text" name="username" onChange={this.change} />
-                        </div>
-                        <div className="input-field">
-                            <label>Password</label>
-                            <input type="password" name="password" onChange={this.change} />
-                        </div>
-                        <button className="btn waves-effect waves-light" type="submit" name="action" onClick={this.submit}>Submit
-                            <i className="material-icons right">send</i>
-                        </button>
-                        {authError ? <p className="center red">{authError}</p> : null}
-                    </form>
-                </div>
-            </div>
+        return (            
+            <MDBContainer fluid style={{ "marginTop": "10px" }}>
+                <MDBRow around center>
+                    <MDBCol md="4" middle>
+                        <MDBCard>
+                            <MDBCardBody>
+                                <form onSubmit={this.submit}>
+                                    <p className="h4 text-center py-4">Sign in</p>
+                                    <div className="grey-text">
+                                        <MDBInput
+                                            label="Name"
+                                            icon="user"
+                                            group
+                                            type="text"
+                                            validate
+                                            error="wrong"                                            
+                                            name="username"
+                                            //value={this.state.username}
+                                            onChange={this.change}
+                                        />
+                                        <MDBInput
+                                            label="Your password"
+                                            icon="envelope"
+                                            group
+                                            type="password"
+                                            validate
+                                            error="wrong"                                            
+                                            name="password"
+                                            //value={this.state.password}
+                                            onChange={this.change}
+                                        />
+                                    </div>
+                                    <div className="text-center py-4 mt-3">
+                                        <MDBBtn className="red darken-4" onClick={this.submit}>
+                                            Submit
+                                        </MDBBtn>
+                                    </div>
+                                    {authError ? <p className="center red darken-4 white-text " style={{textAlign:"center"}}>{authError}</p> : null}
+                                </form>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
         )
     }
 }

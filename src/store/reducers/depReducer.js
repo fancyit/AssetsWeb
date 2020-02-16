@@ -1,12 +1,15 @@
 const initState = {
-    totalItems: 0
+    totalItems: 0,
+    isLoading: true
 }
 const assetReducer = (state = initState, action) => {
     switch (action.type) {
-        case 'FETCH_ERROR':
+        case 'FETCH_ERROR':            
             return {
                 ...state,
-                fetchError: action.response
+                totalItems:0,
+                isLoading: false
+                //fetchError: action.response
             }
         case 'FETCH_SUCCESS':
             const Itesms = action.response.length

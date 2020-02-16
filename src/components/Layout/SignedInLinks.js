@@ -1,17 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'
+import { MDBNavItem, MDBNavLink, MDBNavbarNav } from 'mdbreact';
 
 const SignedInLinks = () => {
     return (
-        <ul className="right">
-            <li><NavLink to='/'>New asset</NavLink></li>
-            <li><NavLink to='/'>Sign out</NavLink></li>
-            <li>
-                <NavLink to='/' className='btn-floating btn-big #78909c blue-grey lighten-1'>
-                    AB
-                </NavLink>
-            </li>
-        </ul>
+
+            <MDBNavbarNav right>
+                <MDBNavItem>
+                    <MDBNavLink className="navLink" to="/AddAsset">New asset</MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem>
+                    <MDBNavLink className="navLink" to="/">Sign out</MDBNavLink>
+                </MDBNavItem>
+            </MDBNavbarNav>        
     )
 }
 export default SignedInLinks
